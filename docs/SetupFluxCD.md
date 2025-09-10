@@ -22,5 +22,6 @@ flux bootstrap github \
   --repository=homelab-fluxcd \
   --branch=main \
   --private=true \
+  --path=clusters/homelab \
   --personal
 ```
