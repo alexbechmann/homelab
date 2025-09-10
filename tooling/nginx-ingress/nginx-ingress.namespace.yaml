@@ -3,4 +3,4 @@ kind: Namespace
 metadata:
   name: nginx-ingress
   labels:
-    name: development
+    test-label: nginx-ingress
