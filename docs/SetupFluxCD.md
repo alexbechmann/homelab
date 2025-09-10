@@ -19,7 +19,7 @@ Metadata -> Access: Read-only
 ```bash
 flux bootstrap github \
   --owner=alexbechmann \
-  --repository=homelab-fluxcd \
+  --repository=homelab \
   --branch=main \
   --private=true \
   --path=clusters/homelab \
