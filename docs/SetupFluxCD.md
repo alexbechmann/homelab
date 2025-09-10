@@ -4,10 +4,6 @@
 
 - <https://fluxcd.io/flux/installation/>
 
-## Create repo
-
-`homelab-fluxcd`
-
 ## Create fine grained token with
 
 Administration -> Access: Read and write
