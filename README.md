@@ -17,5 +17,5 @@ Follow the instructions in [Setup FluxCD](./docs/SetupFluxCD.md)
 ## Cluster tooling
 
 - [x] Ingress controller
-- [] Cert-manager
+- [ ] Cert-manager
 - [x] MetalLB

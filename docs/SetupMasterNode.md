@@ -43,14 +43,14 @@ curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server --disable traefik --disa
 - Set the KUBECONFIG environment variable
 
   ```bash
-    kubectl krew install konfig
-    kubectl konfig import -s ~/.kube/homelab_config
+  kubectl krew install konfig
+  kubectl konfig import -s ~/.kube/homelab_config
   ```
 
 - Replace the server address in the kubeconfig file with the local network IP of the Pi
 
   ```bash
-    vim ~/.kube/config
+  vim ~/.kube/config
   ```
 
   Edit the server line to:
