@@ -25,7 +25,6 @@ spec:
     controller:
       service:
         loadBalancerIP: 192.168.68.35
-
     udp:
-      9683: "experimental-emqx/experimental-emqx-v2-listeners:5683"
-      9684: "experimental-emqx/experimental-emqx-v2-listeners:5684"
+      "9683": "experimental-emqx/experimental-emqx-v2-listeners:5683"
+      "9684": "experimental-emqx/experimental-emqx-v2-listeners:5684"
