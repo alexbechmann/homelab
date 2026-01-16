@@ -1,0 +1,15 @@
+apiVersion: apps.emqx.io/v2beta1
+kind: EMQX
+metadata:
+  name: emqx-ee
+  namespace: experimental-emqx
+spec:
+  image: emqx/emqx-enterprise:5.8
+  config:
+    data: log.console.level = debug
+  coreTemplate:
+    spec:
+      replicas: 1
+  replicantTemplate:
+    spec:
+      replicas: 1
