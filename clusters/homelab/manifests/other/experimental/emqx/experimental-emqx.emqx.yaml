@@ -120,12 +120,12 @@ spec:
         - name: emqx-tls
           mountPath: /mounted/cert
       resources:
-        limits:
-          cpu: 200m
-          memory: 300Mi
         requests:
           cpu: 200m
           memory: 300Mi
+        limits:
+          cpu: 200m
+          memory: 600Mi
       volumeClaimTemplates:
         storageClassName: local-path
         resources:
@@ -148,12 +148,12 @@ spec:
         runAsGroup: 1000
       replicas: 1
       resources:
-        limits:
-          cpu: 200m
-          memory: 300Mi
         requests:
           cpu: 200m
           memory: 300Mi
+        limits:
+          cpu: 200m
+          memory: 600Mi
       extraVolumes:
         - name: emqx-tls
           secret:
