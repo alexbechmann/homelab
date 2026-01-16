@@ -16,9 +16,10 @@ spec:
   chart:
     spec:
       chart: nginx-ingress
-      version: 2.2.2
+      version: 2.4.1
       sourceRef:
         kind: HelmRepository
+        # name: nginx-stable
         name: nginx-ingress-oci
         namespace: flux-system
   values:
