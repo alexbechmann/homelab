@@ -19,8 +19,8 @@ kind: EMQX
 metadata:
   name: experimental-emqx
   namespace: experimental-emqx
-  annotations:
-    helm.toolkit.fluxcd.io/driftDetection: disabled
+  # annotations:
+  #   helm.toolkit.fluxcd.io/driftDetection: disabled
 spec:
   image: emqx/emqx:5.1.6
   config:
