@@ -1,15 +1,176 @@
+# apiVersion: apps.emqx.io/v2beta1
+# kind: EMQX
+# metadata:
+#   name: emqx-ee
+#   namespace: experimental-emqx
+# spec:
+#   image: emqx/emqx-enterprise:5.8
+#   config:
+#     data: log.console.level = debug
+#   coreTemplate:
+#     spec:
+#       replicas: 1
+#   replicantTemplate:
+#     spec:
+#       replicas: 1
+
 apiVersion: apps.emqx.io/v2beta1
 kind: EMQX
 metadata:
-  name: emqx-ee
+  name: experimental-emqx
   namespace: experimental-emqx
+  annotations:
+    helm.toolkit.fluxcd.io/driftDetection: disabled
 spec:
-  image: emqx/emqx-enterprise:5.8
+  image: emqx/emqx:5.1.6
   config:
-    data: log.console.level = debug
-  coreTemplate:
+    data: |
+      log.console.level = debug
+
+      listeners.ssl.default {
+        bind = "0.0.0.0:8883"
+        ssl_options {
+          cacertfile = "/mounted/cert/ca.crt"
+          certfile = "/mounted/cert/tls.crt"
+          keyfile = "/mounted/cert/tls.key"
+        }
+      }
+      gateway {
+        coap {
+          connection_required = false
+          enable = true
+          listeners = {
+            udp = {
+              default = {
+                bind = "5683"
+                enable = true
+                max_conn_rate = 1000
+                max_connections = 1024000
+              }
+            }
+            dtls = {
+              default = {
+                bind = "5684"
+                enable = true
+                enable_authn = false
+                max_conn_rate = 1000
+                max_connections = 1024000
+                dtls_options = {
+                  cacertfile = "/mounted/cert/ca.crt"
+                  certfile = "/mounted/cert/tls.crt"
+                  keyfile = "/mounted/cert/tls.key"
+                  verify = "verify_none"
+                  fail_if_no_peer_cert = false
+                  log_level = "all"
+                }
+              }
+            }
+          }
+        }
+      }
+  listenersServiceTemplate:
+    metadata:
+      name: exerimental-emqx-listeners
+      labels:
+        business-owner: "jens.kargaard"
+        description: "vipe_system"
+        helm-char: "0.4"
+        priority: "medium"
+        system-component: "vipe"
+        system-managed-by: "helm"
+        system-name: "vipe"
+        system-part-of: "vipe"
+        system-tier: "dev"
+        system-version: "0.4"
+        technical-owner: "thanh.le"
+        veluxwbs: "veluxwbs"
     spec:
+      ports:
+        - name: tcp-default
+          port: 1883
+          protocol: TCP
+          targetPort: 1883
+        - name: ssl-default
+          port: 8883
+          protocol: TCP
+          targetPort: 8883
+        - name: ws-default
+          port: 8083
+          protocol: TCP
+          targetPort: 8083
+        - name: wss-default
+          port: 8084
+          protocol: TCP
+          targetPort: 8084
+        - name: coap-udp-default
+          port: 5683
+          protocol: UDP
+          targetPort: 5683
+        - name: coap-dtls-default
+          port: 5684
+          protocol: UDP
+          targetPort: 5684
+      type: ClusterIP
+      # type: LoadBalancer
+  coreTemplate:
+    metadata:
+      name: exerimental-emqx-core
+    spec:
+      podSecurityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: Always
+      containerSecurityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
       replicas: 1
+      extraVolumes:
+        - name: emqx-tls
+          secret:
+            secretName: experimental-emqx-tls
+      extraVolumeMounts:
+        - name: emqx-tls
+          mountPath: /mounted/cert
+      resources:
+        limits:
+          cpu: 200m
+          memory: 300Mi
+        requests:
+          cpu: 200m
+          memory: 300Mi
+      volumeClaimTemplates:
+        storageClassName: default
+        resources:
+          requests:
+            storage: 4Gi
+        accessModes:
+          - ReadWriteOnce
   replicantTemplate:
     spec:
+      podSecurityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: Always
+        supplementalGroups:
+          - 1000
+      containerSecurityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
       replicas: 1
+      resources:
+        limits:
+          cpu: 200m
+          memory: 300Mi
+        requests:
+          cpu: 200m
+          memory: 300Mi
+      extraVolumes:
+        - name: emqx-tls
+          secret:
+            secretName: experimental-emqx-tls
+      extraVolumeMounts:
+        - name: emqx-tls
+          mountPath: /mounted/cert
