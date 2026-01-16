@@ -71,19 +71,6 @@ spec:
   listenersServiceTemplate:
     metadata:
       name: exerimental-emqx-listeners
-      labels:
-        business-owner: "jens.kargaard"
-        description: "vipe_system"
-        helm-char: "0.4"
-        priority: "medium"
-        system-component: "vipe"
-        system-managed-by: "helm"
-        system-name: "vipe"
-        system-part-of: "vipe"
-        system-tier: "dev"
-        system-version: "0.4"
-        technical-owner: "thanh.le"
-        veluxwbs: "veluxwbs"
     spec:
       ports:
         - name: tcp-default
