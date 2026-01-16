@@ -103,6 +103,8 @@ spec:
     metadata:
       name: exerimental-emqx-core
     spec:
+      strategy:
+        type: Recreate
       podSecurityContext:
         runAsUser: 1000
         runAsGroup: 1000
