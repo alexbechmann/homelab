@@ -22,7 +22,8 @@ metadata:
   # annotations:
   #   helm.toolkit.fluxcd.io/driftDetection: disabled
 spec:
-  image: emqx/emqx:5.8.9
+  # image: emqx/emqx:5.8.9
+  image: emqx/emqx:5.1.0
   updateStrategy:
     type: Recreate
   config:
