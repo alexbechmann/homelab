@@ -17,7 +17,7 @@
 apiVersion: apps.emqx.io/v2beta1
 kind: EMQX
 metadata:
-  name: experimental-emqx
+  name: experimental-emqx-v2
   namespace: experimental-emqx
   # annotations:
   #   helm.toolkit.fluxcd.io/driftDetection: disabled
