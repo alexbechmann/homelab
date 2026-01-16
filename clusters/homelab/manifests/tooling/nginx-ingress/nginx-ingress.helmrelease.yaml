@@ -16,7 +16,7 @@ spec:
   chart:
     spec:
       chart: nginx-ingress
-      version: 2.4.1
+      version: 4.14.1
       sourceRef:
         kind: HelmRepository
         # name: nginx-stable
