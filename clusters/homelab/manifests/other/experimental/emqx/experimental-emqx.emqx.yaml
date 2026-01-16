@@ -130,7 +130,7 @@ spec:
         storageClassName: local-path
         resources:
           requests:
-            storage: 4Gi
+            storage: 0.5Gi
         accessModes:
           - ReadWriteOnce
   replicantTemplate:
