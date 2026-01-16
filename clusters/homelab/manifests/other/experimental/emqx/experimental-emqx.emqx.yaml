@@ -23,6 +23,8 @@ metadata:
   #   helm.toolkit.fluxcd.io/driftDetection: disabled
 spec:
   image: emqx/emqx:5.8.9
+  updateStrategy:
+    type: Recreate
   config:
     data: |
       log.console.level = debug
