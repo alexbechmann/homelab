@@ -30,6 +30,50 @@ spec:
   config:
     data: |
       log.console.level = debug
+
+      listeners.ssl.default {
+        bind = "0.0.0.0:8883"
+        ssl_options {
+          cacertfile = "/mounted/cert/ca.crt"
+          certfile = "/mounted/cert/tls.crt"
+          keyfile = "/mounted/cert/tls.key"
+        }
+      }
+
+      gateway {
+        coap {
+          connection_required = false
+          enable = true
+          listeners = {
+            udp = {
+              default = {
+                bind = "5683"
+                enable = true
+                max_conn_rate = 1000
+                max_connections = 1024000
+              }
+            }
+            dtls = {
+              default = {
+                bind = "5684"
+                enable = true
+                enable_authn = false
+                max_conn_rate = 1000
+                max_connections = 1024000
+                dtls_options = {
+                  cacertfile = "/mounted/cert/ca.crt"
+                  certfile = "/mounted/cert/tls.crt"
+                  keyfile = "/mounted/cert/tls.key"
+                  verify = "verify_none"
+                  fail_if_no_peer_cert = false
+                  log_level = "all"
+                }
+              }
+            }
+          }
+        }
+      }
+
   listenersServiceTemplate:
     metadata:
       name: exerimental-emqx-listeners
@@ -95,73 +139,31 @@ spec:
             storage: 0.5Gi
         accessModes:
           - ReadWriteOnce
-  replicantTemplate:
-    spec:
-      podSecurityContext:
-        runAsUser: 1000
-        runAsGroup: 1000
-        fsGroup: 1000
-        fsGroupChangePolicy: Always
-        supplementalGroups:
-          - 1000
-      containerSecurityContext:
-        runAsNonRoot: true
-        runAsUser: 1000
-        runAsGroup: 1000
-      replicas: 1
-      resources:
-        requests:
-          cpu: 500m
-          memory: 300Mi
-        limits:
-          cpu: 500m
-          memory: 1Gi
-      extraVolumes:
-        - name: emqx-tls
-          secret:
-            secretName: experimental-emqx-tls
-      extraVolumeMounts:
-        - name: emqx-tls
-          mountPath: /mounted/cert
-# gateway {
-#         coap {
-#           connection_required = false
-#           enable = true
-#           listeners = {
-#             udp = {
-#               default = {
-#                 bind = "5683"
-#                 enable = true
-#                 max_conn_rate = 1000
-#                 max_connections = 1024000
-#               }
-#             }
-#             dtls = {
-#               default = {
-#                 bind = "5684"
-#                 enable = true
-#                 enable_authn = false
-#                 max_conn_rate = 1000
-#                 max_connections = 1024000
-#                 dtls_options = {
-#                   cacertfile = "/mounted/cert/ca.crt"
-#                   certfile = "/mounted/cert/tls.crt"
-#                   keyfile = "/mounted/cert/tls.key"
-#                   verify = "verify_none"
-#                   fail_if_no_peer_cert = false
-#                   log_level = "all"
-#                 }
-#               }
-#             }
-#           }
-#         }
-#       }
-
-# listeners.ssl.default {
-#   bind = "0.0.0.0:8883"
-#   ssl_options {
-#     cacertfile = "/mounted/cert/ca.crt"
-#     certfile = "/mounted/cert/tls.crt"
-#     keyfile = "/mounted/cert/tls.key"
-#   }
-# }
+  # replicantTemplate:
+  #   spec:
+  #     podSecurityContext:
+  #       runAsUser: 1000
+  #       runAsGroup: 1000
+  #       fsGroup: 1000
+  #       fsGroupChangePolicy: Always
+  #       supplementalGroups:
+  #         - 1000
+  #     containerSecurityContext:
+  #       runAsNonRoot: true
+  #       runAsUser: 1000
+  #       runAsGroup: 1000
+  #     replicas: 1
+  #     resources:
+  #       requests:
+  #         cpu: 500m
+  #         memory: 300Mi
+  #       limits:
+  #         cpu: 500m
+  #         memory: 1Gi
+  #     extraVolumes:
+  #       - name: emqx-tls
+  #         secret:
+  #           secretName: experimental-emqx-tls
+  #     extraVolumeMounts:
+  #       - name: emqx-tls
+  #         mountPath: /mounted/cert
