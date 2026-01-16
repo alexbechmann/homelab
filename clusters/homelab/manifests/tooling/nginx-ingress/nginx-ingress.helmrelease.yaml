@@ -19,8 +19,8 @@ spec:
       version: 4.14.1
       sourceRef:
         kind: HelmRepository
-        # name: nginx-stable
-        name: nginx-ingress-oci
+        name: ingress-nginx
+        # name: nginx-ingress-oci
         namespace: flux-system
   values:
     controller:
