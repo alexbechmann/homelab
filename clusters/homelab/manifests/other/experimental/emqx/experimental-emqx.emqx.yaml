@@ -103,8 +103,9 @@ spec:
           port: 5684
           protocol: UDP
           targetPort: 5684
-      type: ClusterIP
+      # type: ClusterIP
       # type: LoadBalancer
+      type: NodePort
   coreTemplate:
     metadata:
       name: exerimental-emqx-core
