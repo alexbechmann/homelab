@@ -26,6 +26,9 @@ spec:
     controller:
       service:
         loadBalancerIP: 10.10.70.35
+
+    tcp:
+      "9883": "experimental-emqx/experimental-emqx-v2-listeners:8883"
     udp:
       "9683": "experimental-emqx/experimental-emqx-v2-listeners:5683"
       "9684": "experimental-emqx/experimental-emqx-v2-listeners:5684"
